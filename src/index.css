@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.cursor-pointer {
+  cursor: pointer;
+}
+.arign-right{
+  width: 100%;
+  text-align: right;
+}
