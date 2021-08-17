@@ -16,3 +16,19 @@ export type IContentAdd = {
   title: string
   content: string
 }
+export type IReview = {
+  attribute: string
+  prefectures: string
+  municipalities: string
+  review: string
+  createdAt: Date
+  id: string
+}
+export type IReviewAdd = {
+  user: IUser
+  sex: string
+  attribute: string
+  prefectures: string
+  municipalities: string
+  review: string
+}

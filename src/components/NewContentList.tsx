@@ -42,7 +42,7 @@ export const NewContentList = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
     swipeToSlide: true,
   }
@@ -58,7 +58,8 @@ export const NewContentList = () => {
         ) : (
           contents.map((content) => (
             <ModalWindow key={content.id} content={content} />
-          ))
+            
+          ),console.log(contents))
         )}
       </Slider>
     </>
@@ -87,7 +88,7 @@ const ModalWindow = ({ content }: { content: IContent }) => {
           pos={'relative'}>
           <Image
             src={
-              'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+              'https://picsum.photos/seed/picsum/300/200'
             }
             layout={'fill'}
           />
@@ -103,11 +104,11 @@ const ModalWindow = ({ content }: { content: IContent }) => {
           </Text>
           <Heading
             color={'gray.700'}
-            fontSize={'2xl'}
+            fontSize={'xl'}
             fontFamily={'body'}>
             {content.title}
           </Heading>
-          <Text color={'gray.500'} isTruncated>
+          <Text color={'gray.900'} fontSize={'md'} isTruncated>
             {content.content}
           </Text>
         </Stack>

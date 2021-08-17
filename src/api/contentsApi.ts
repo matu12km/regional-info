@@ -4,7 +4,6 @@ import { IContent, IContentAdd } from '../models'
 export const getContents = async () => {
   const snapShot = await firedb
     .collection('contents')
-    
     .get()
   const data = snapShot.docs.map<IContent>((doc) => ({
     user: doc.data().user,

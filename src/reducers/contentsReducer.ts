@@ -1,4 +1,3 @@
-  
 import { IContent } from '../models'
 
 export type ContentsAction =
@@ -13,7 +12,7 @@ export const initialState: ContentsState = {
   contents: [],
 }
 
-export const commentsReducer = (
+export const contentsReducer = (
   state: ContentsState,
   action: ContentsAction
 ): ContentsState => {
