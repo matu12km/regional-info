@@ -16,6 +16,7 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
+  Container,
 } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import Slider from "react-slick";
@@ -44,7 +45,33 @@ export const NewContentList = () => {
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
+    initialSlide: 0,
     swipeToSlide: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ],
   }
 
   return (
@@ -52,16 +79,19 @@ export const NewContentList = () => {
       <Heading mt={4} mb={2} as='h2' size='lg' color='gray.600'>
         新着情報
       </Heading>
-      <Slider {...sliderSettings}>
-        {contents === [] ? (
-          <p>No Post</p>
-        ) : (
-          contents.map((content) => (
-            <ModalWindow key={content.id} content={content} />
-            
-          ),console.log(contents))
-        )}
-      </Slider>
+      <Container px={5}  maxW='container.lg' className='test'>
+        <Slider {...sliderSettings}>
+          {contents === [] ? (
+            <p>No Post</p>
+          ) : (
+            contents.map((content) => (
+              <ModalWindow key={content.id} content={content} />
+
+            ), console.log(contents))
+          )}
+        </Slider>
+
+      </Container>
     </>
   )
 }
@@ -131,7 +161,7 @@ const ModalWindow = ({ content }: { content: IContent }) => {
           <ModalHeader>{content.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Center  className="test">
+            <Center className="test">
               <Image src='https://via.placeholder.com/150' alt='test' />
             </Center>
             <HStack mb={2}>
