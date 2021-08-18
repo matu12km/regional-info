@@ -60,12 +60,16 @@ export const Header = () => {
             />
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-            <Text
+            <Link
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
               fontFamily={'heading'}
-              color={useColorModeValue('gray.800', 'white')}>
-              Logo
-            </Text>
+              color={useColorModeValue('gray.800', 'white')}
+              href={'/'}
+              _hover={{
+                textDecoration: 'none',
+              }}>
+              title
+            </Link>
 
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />
@@ -132,9 +136,11 @@ const DesktopNav = () => {
                 fontSize={'sm'}
                 fontWeight={500}
                 color={linkColor}
+                transition={'all .3s ease'}
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
+                  bg: 'gray.200',
                 }}>
                 {navItem.label}
               </Link>
@@ -170,12 +176,12 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       display={'block'}
       p={2}
       rounded={'md'}
-      _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
+      _hover={{ bg: useColorModeValue('gray.200', 'gray.900') }}>
       <Stack direction={'row'} align={'center'}>
         <Box>
           <Text
             transition={'all .3s ease'}
-            _groupHover={{ color: 'pink.400' }}
+            _groupHover={{ color: 'pink.400'}}
             fontWeight={500}>
             {label}
           </Text>
@@ -199,9 +205,12 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 const MobileNav = () => {
   return (
     <Stack
-      bg={useColorModeValue('white', 'gray.800')}
-      p={4}
-      display={{ md: 'none' }}>
+      bg={useColorModeValue('white', 'red.900')}
+      display={{ md: 'none' }}
+      zIndex={999}
+      pos='fixed'
+      top={'60px'}
+      h={'full'}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -215,14 +224,19 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
   return (
     <Stack spacing={4} onClick={children && onToggle}>
       <Flex
-        py={2}
+        p={2}
+        px={7}
+        w={'full'}
         as={Link}
-        href={href ?? '#'}
+        to={href ?? '#'}
         justify={'space-between'}
         align={'center'}
+        transition={'all .3s ease'}
         _hover={{
           textDecoration: 'none',
-        }}>
+          bg: 'gray.200'
+        }}
+      zIndex={999}>
         <Text
           fontWeight={600}
           color={useColorModeValue('gray.600', 'gray.200')}>
@@ -249,7 +263,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           align={'start'}>
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
+              <Link key={child.label} py={2} to={child.href}>
                 {child.label}
               </Link>
             ))}
