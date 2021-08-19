@@ -3,52 +3,34 @@ import {
   Heading,
   Text,
   Stack,
-  Input,
   Button,
+  Select,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getReviews } from '../api/reviewsApi'
 import { useReviews } from '../contexts/reviewsContext'
 
 
 import { IReview } from '../models'
 import Moment from 'moment'
+import { Prefecture, PrefectureArray } from '../data/prefectures'
 
 export const ReviewList = () => {
-  
+
+  const [prefectures, setPrefectures] = useState('')
   const {
     state: { reviews },
     dispatch,
   } = useReviews()
-  useEffect(() => {
-    getReviews().then((data) => {
+
+  const prefecturesChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    setPrefectures(e.currentTarget[e.currentTarget.selectedIndex].innerText)
+  }
+
+  const handleClick = (e: React.FormEvent) => {
+    getReviews(prefectures).then((data) => {
       dispatch({ type: 'SET_REVIEWS', reviews: data })
     })
-  }, [dispatch])
-  //検索用
-  let dataList = reviews
-  const [prefectures, setPrefectures] = useState('')
-  const [attribute, setAttribute] = useState('')
-  const [freeWord, setFreeWord] = useState('')
-  const prefecturesChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setPrefectures(e.currentTarget.value)
-  }
-  const attributeChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setAttribute(e.currentTarget.value)
-  }
-  const freeWordChange = (e: React.FormEvent<HTMLInputElement>) => {
-    setFreeWord(e.currentTarget.value)
-  }
-  const handleClick = (e: React.FormEvent) => {
-    if (prefectures !== '') {
-      dataList.filter(value=> value.prefectures === prefectures)
-    }
-    if (attribute !== '') {
-      dataList.filter(value=> value.attribute === attribute)
-    }
-    if (freeWord !== '') {
-      dataList.filter(value=> value.review.match(freeWord))
-    }
   }
 
   return (
@@ -57,21 +39,27 @@ export const ReviewList = () => {
         <Heading mb={2} as='h2' size='lg' color='gray.600'>
           レビュー
         </Heading>
-        <Stack as='form'>
-          <Input placeholder='都道府県からさがず' value={prefectures || ''} onChange={prefecturesChange} />
-          <Input placeholder='所属からさがす' value={attribute || ''} onChange={attributeChange}/>
-          <Input placeholder='フリーワード検索' value={freeWord || ''} onChange={freeWordChange} />
-          <Button onClick={handleClick}>検索</Button>
+        <Heading as='h3' size='md'>検索</Heading>
+        <Stack as='form' bg='white' mb={3} p={6}>
+          <Stack direction={'row'} spacing={5} fontSize={'md'} >
+            <Text>都道府県</Text>
+            <Select placeholder="都道府県を選んでください。" value={prefectures} onChange={prefecturesChange}>
+              {PrefectureArray.map((prefecture: Prefecture) => (
+                <option key={prefecture.id} value={prefecture.id}>{prefecture.name}</option>
+              ))}
+            </Select>
+          </Stack>
+          <Button onClick={handleClick} colorScheme='orange'>検索</Button>
         </Stack>
-        {dataList === [] ? (
+        <Heading as='h3' size='md'>検索結果</Heading>
+        {reviews === [] ? (
           <p>No Post</p>
         ) : (
-            
-          dataList.map((review) => (
+
+          reviews.map((review) => (
             <ReviewBox key={review.id} review={review} />
           ))
         )}
-        {console.log(dataList)}
       </Box>
     </>
   )
@@ -85,7 +73,6 @@ const ReviewBox = ({ review }: { review: IReview }) => {
         boxShadow={'2sm'}
         rounded={'md'}
         p={6}
-        mr={2}
         mb={2}
         overflow={'hidden'}
       >
@@ -120,7 +107,7 @@ const ReviewBox = ({ review }: { review: IReview }) => {
           </Text>
         </Stack>
         <Stack mt={6} direction={'row'} spacing={4} align={'center'} fontSize={'sm'}>
-        <Text color={'gray.500'}>口コミ投稿日：</Text>
+          <Text color={'gray.500'}>口コミ投稿日：</Text>
           <Text color={'gray.500'}>{Moment(review.createdAt).format('YYYY-MM-DD')}</Text>
 
         </Stack>

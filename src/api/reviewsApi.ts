@@ -1,9 +1,10 @@
 import { firedb, firebase } from '../firebase'
 import { IReview, IReviewAdd } from '../models'
 
-export const getReviews = async () => {
+export const getReviews = async (setPrefectures:string) => {
   const snapShot = await firedb
     .collection('reviews')
+    .where('prefectures', '==', setPrefectures)
     .get()
   const data = snapShot.docs.map<IReview>((doc) => ({
     user: doc.data().user,

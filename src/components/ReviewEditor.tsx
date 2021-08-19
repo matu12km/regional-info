@@ -1,18 +1,35 @@
 import { Button, Container, Text, Textarea, VStack, FormControl, FormLabel, Select } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { addReview } from '../api/reviewsApi'
 import { useAuth } from '../contexts/authContext'
 import { useReviews } from '../contexts/reviewsContext'
 import { IReviewAdd } from '../models'
+import { Prefecture, PrefectureArray } from '../data/prefectures'
+import axios from 'axios'
 
 export const ReviewEditor = () => {
   const { user } = useAuth()
   const { dispatch } = useReviews()
   const [sex, setSex] = useState('')
   const [attribute, setAttribute] = useState('')
+  const [searchPrefecture, setSearchPrefecture] = useState('')
+  const [municipalitiesList, setMunicipalitiesList] = useState([])
   const [prefectures, setPrefectures] = useState('')
+  const [dataPrefecture, setDataPrefecture] = useState('')
   const [municipalities, setMunicipalities] = useState('')
+  const [dataMunicipalities, setDataMunicipalities] = useState('')
   const [review, setReview] = useState('')
+
+  useEffect(() => {
+    if (searchPrefecture !== '') {
+      const getMunicipalitiesList = async () => {
+        const result = await axios.get('https://www.land.mlit.go.jp/webland/api/CitySearch?area=' + searchPrefecture)
+        setMunicipalitiesList(result.data.data)
+      }
+      getMunicipalitiesList()
+    }
+
+  },[searchPrefecture])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -21,8 +38,8 @@ export const ReviewEditor = () => {
         user: { displayName: user.displayName, photoURL: user.photoURL },
         sex,
         attribute,
-        prefectures,
-        municipalities,
+        prefectures: dataPrefecture,
+        municipalities: dataMunicipalities,
         review,
       }
       addReview({ ...toPost })
@@ -51,9 +68,13 @@ export const ReviewEditor = () => {
   }
   const prefecturesChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setPrefectures(e.currentTarget.value)
+    setDataPrefecture(e.currentTarget[e.currentTarget.selectedIndex].innerText)
+    let num = ("00" + e.currentTarget.value).slice(-2);
+    setSearchPrefecture(num)
   }
   const municipalitiesChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setMunicipalities(e.currentTarget.value)
+    setDataMunicipalities(e.currentTarget[e.currentTarget.selectedIndex].innerText)
   }
   const reviewChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
     setReview(e.currentTarget.value)
@@ -91,17 +112,22 @@ export const ReviewEditor = () => {
         <FormControl id="prefectures" isRequired>
           <FormLabel>都道府県</FormLabel>
           <Select placeholder="都道府県を選んでください。" value={prefectures} onChange={prefecturesChange}>
-            <option>○○県</option>
-            <option>○×県</option>
-            <option>●◇県</option>
+            {PrefectureArray.map((prefecture: Prefecture) => (
+              <option key={prefecture.id} value={prefecture.id}>{prefecture.name}</option>
+            ))}
           </Select>
         </FormControl>
         <FormControl id="municipalities" isRequired>
           <FormLabel>市町村</FormLabel>
           <Select placeholder="市町村を選んでください。" value={municipalities} onChange={municipalitiesChange}>
-            <option>○○市</option>
-            <option>○×町</option>
-            <option>●◇村</option>
+            {municipalitiesList === [] ? (
+              ''
+            ) : (
+              municipalitiesList.map((municipalitie: Prefecture) => (
+                <option key={municipalitie.id} value={municipalitie.id}>{municipalitie.name}</option>
+              ))
+            )
+            }
           </Select>
         </FormControl>
         <FormControl id='review' isRequired>
