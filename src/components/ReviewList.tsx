@@ -95,7 +95,7 @@ const ReviewBox = ({ review }: { review: IReview }) => {
               textTransform={'uppercase'}
               fontSize={'sm'}
               letterSpacing={1.1}>
-              {review.attribute}
+              {review.sex}/{review.attribute}
             </Text>
           </Stack>
 

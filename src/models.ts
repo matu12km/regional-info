@@ -17,6 +17,7 @@ export type IContentAdd = {
   content: string
 }
 export type IReview = {
+  sex: string
   attribute: string
   prefectures: string
   municipalities: string

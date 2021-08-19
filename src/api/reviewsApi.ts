@@ -8,6 +8,7 @@ export const getReviews = async (setPrefectures:string) => {
     .get()
   const data = snapShot.docs.map<IReview>((doc) => ({
     user: doc.data().user,
+    sex: doc.data().sex,
     attribute: doc.data().attribute,
     prefectures: doc.data().prefectures,
     municipalities: doc.data().municipalities,
@@ -21,6 +22,7 @@ export const getReviews = async (setPrefectures:string) => {
 export const addReview = async (review: IReviewAdd) => {
   return firedb.collection('reviews').add({
     user: review.user,
+    sex: review.sex,
     attribute: review.attribute,
     prefectures: review.prefectures,
     municipalities: review.municipalities,
