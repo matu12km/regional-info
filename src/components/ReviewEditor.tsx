@@ -59,6 +59,7 @@ export const ReviewEditor = () => {
     setPrefectures('')
     setMunicipalities('')
     setReview('')
+    alert('Success!')
   }
   const sexChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setSex(e.currentTarget.value)

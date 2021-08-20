@@ -36,6 +36,7 @@ export const Editor = () => {
     setContentType('')
     setTitle('')
     setContent('')
+    alert('Success')
   }
   const contentTypeChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setContentType(e.currentTarget.value)
