@@ -5,17 +5,21 @@ export type IUser = {
 export type IContent = {
   user: IUser
   contentType: string
+  prefectures: string
+  municipalities: string
   title: string
-  content: string
   createdAt: Date
   id: string
 }
 export type IContentAdd = {
   user: IUser
   contentType: string
+  prefectures: string
+  municipalities: string
   title: string
-  content: string
+  content: any[]
 }
+
 export type IReview = {
   sex: string
   attribute: string

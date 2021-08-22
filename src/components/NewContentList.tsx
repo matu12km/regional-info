@@ -139,7 +139,7 @@ const ModalWindow = ({ content }: { content: IContent }) => {
             {content.title}
           </Heading>
           <Text color={'gray.900'} fontSize={'md'} isTruncated>
-            {content.content}
+            text
           </Text>
         </Stack>
         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
@@ -177,7 +177,7 @@ const ModalWindow = ({ content }: { content: IContent }) => {
             <Text color='gray.400' my={2} fontSize='sm' align='end'>
               {content.createdAt.toLocaleString()}
             </Text>
-            <Text>{content.content}</Text>
+            <Text>text</Text>
           </ModalBody>
 
           <ModalFooter>
