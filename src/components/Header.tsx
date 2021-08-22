@@ -29,82 +29,93 @@ export const Header = () => {
   const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <Box>
-      <Flex
-        bg={useColorModeValue('white', 'gray.800')}
-        color={useColorModeValue('gray.600', 'white')}
-        minH={'60px'}
-        py={{ base: 2 }}
-        px={{ base: 4 }}
-        borderBottom={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.900')}
-        align={'center'}>
+    <>
+      <Box w={'full'} h={'60px'}>
         <Flex
-          flex={{ base: 1, md: 'auto' }}
-          ml={{ base: -2 }}
-          display={{ base: 'flex', md: 'none' }}>
-          <IconButton
-            onClick={onToggle}
-            icon={
-              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
-            }
-            variant={'ghost'}
-            aria-label={'Toggle Navigation'}
-          />
-        </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-          <Text
-            textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-            fontFamily={'heading'}
-            color={useColorModeValue('gray.800', 'white')}>
-            Logo
-          </Text>
-
-          <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
-            <DesktopNav />
+          as='header'
+          position='fixed'
+          top={0}
+          w={'full'}
+          bg={useColorModeValue('white', 'gray.800')}
+          color={useColorModeValue('gray.600', 'white')}
+          minH={'60px'}
+          py={{ base: 2 }}
+          px={{ base: 4 }}
+          borderBottom={1}
+          borderStyle={'solid'}
+          borderColor={useColorModeValue('gray.200', 'gray.900')}
+          align={'center'}
+          zIndex={999}>
+          <Flex
+            flex={{ base: 1, md: 'auto' }}
+            ml={{ base: -2 }}
+            display={{ base: 'flex', md: 'none' }}>
+            <IconButton
+              onClick={onToggle}
+              icon={
+                isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
+              }
+              variant={'ghost'}
+              aria-label={'Toggle Navigation'}
+            />
           </Flex>
+          <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+            <Link
+              textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+              fontFamily={'heading'}
+              color={useColorModeValue('gray.800', 'white')}
+              href={'/'}
+              _hover={{
+                textDecoration: 'none',
+              }}>
+              title
+            </Link>
+
+            <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+              <DesktopNav />
+            </Flex>
+          </Flex>
+
+          <Stack
+            flex={{ base: 1, md: 0 }}
+            justify={'flex-end'}
+            direction={'row'}
+            spacing={6}>
+            {user ? (
+              <Button
+                display={{ base: 'none', md: 'inline-flex' }}
+                fontSize={'sm'}
+                fontWeight={600}
+                color={'white'}
+                bg={'pink.400'}
+                href={'#'}
+                onClick={() => auth.signOut()}
+                _hover={{
+                  bg: 'pink.300',
+                }}>
+                Log Out
+              </Button>
+            ) : (
+              <Button
+                as={'a'}
+                fontSize={'sm'}
+                fontWeight={400}
+                variant={'link'}
+                href={'/login'}>
+                Sign In
+              </Button>
+
+            )
+            }
+
+          </Stack>
         </Flex>
 
-        <Stack
-          flex={{ base: 1, md: 0 }}
-          justify={'flex-end'}
-          direction={'row'}
-          spacing={6}>
-          {user ? (
-             <Button
-             display={{ base: 'none', md: 'inline-flex' }}
-             fontSize={'sm'}
-             fontWeight={600}
-             color={'white'}
-             bg={'pink.400'}
-              href={'#'}
-              onClick={() => auth.signOut()}
-             _hover={{
-               bg: 'pink.300',
-             }}>
-             Log Out
-           </Button>
-          ) : (
-          <Button
-            as={'a'}
-            fontSize={'sm'}
-            fontWeight={400}
-              variant={'link'}
-            href={'/login'}>
-            Sign In
-          </Button>
-              
-          )
-        }
-         
-        </Stack>
-      </Flex>
-
-      <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
-      </Collapse>
-    </Box>
+        <Collapse in={isOpen} animateOpacity>
+          <MobileNav />
+        </Collapse>
+      </Box>
+    </>
   );
 }
 
@@ -125,9 +136,11 @@ const DesktopNav = () => {
                 fontSize={'sm'}
                 fontWeight={500}
                 color={linkColor}
+                transition={'all .3s ease'}
                 _hover={{
                   textDecoration: 'none',
                   color: linkHoverColor,
+                  bg: 'gray.200',
                 }}>
                 {navItem.label}
               </Link>
@@ -163,12 +176,12 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
       display={'block'}
       p={2}
       rounded={'md'}
-      _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
+      _hover={{ bg: useColorModeValue('gray.200', 'gray.900') }}>
       <Stack direction={'row'} align={'center'}>
         <Box>
           <Text
             transition={'all .3s ease'}
-            _groupHover={{ color: 'pink.400' }}
+            _groupHover={{ color: 'pink.400'}}
             fontWeight={500}>
             {label}
           </Text>
@@ -192,9 +205,12 @@ const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
 const MobileNav = () => {
   return (
     <Stack
-      bg={useColorModeValue('white', 'gray.800')}
-      p={4}
-      display={{ md: 'none' }}>
+      bg={useColorModeValue('white', 'red.900')}
+      display={{ md: 'none' }}
+      zIndex={999}
+      pos='fixed'
+      top={'60px'}
+      h={'full'}>
       {NAV_ITEMS.map((navItem) => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
@@ -208,14 +224,19 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
   return (
     <Stack spacing={4} onClick={children && onToggle}>
       <Flex
-        py={2}
+        p={2}
+        px={7}
+        w={'full'}
         as={Link}
-        href={href ?? '#'}
+        to={href ?? '#'}
         justify={'space-between'}
         align={'center'}
+        transition={'all .3s ease'}
         _hover={{
           textDecoration: 'none',
-        }}>
+          bg: 'gray.200'
+        }}
+      zIndex={999}>
         <Text
           fontWeight={600}
           color={useColorModeValue('gray.600', 'gray.200')}>
@@ -242,7 +263,7 @@ const MobileNavItem = ({ label, children, href }: NavItem) => {
           align={'start'}>
           {children &&
             children.map((child) => (
-              <Link key={child.label} py={2} href={child.href}>
+              <Link key={child.label} py={2} to={child.href}>
                 {child.label}
               </Link>
             ))}
@@ -267,4 +288,12 @@ export const NAV_ITEMS: Array<NavItem> = [
     label: '投稿',
     href: '/editor'
   },
+  {
+    label: '口コミ',
+    href: '/review'
+  },
+  {
+    label: '口コミ投稿',
+    href: '/revieweditor'
+  }
 ];

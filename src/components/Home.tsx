@@ -1,13 +1,17 @@
 import { NewContentList } from './NewContentList'
 import { Concept } from './Concept'
 import { MainVisual } from './MainVisual'
+import { Header } from './Header'
 import { Footer } from './Footer'
 import { Container } from '@chakra-ui/layout'
 export const Home = () => (
-  <Container px={2} maxW='container.lg'>
+  <>
+    <Header />
     <MainVisual />
-    <NewContentList />
-    <Concept />
+    <Container px={2} maxW='container.lg'>
+      <NewContentList />
+      <Concept />
+    </Container>
     <Footer />
-  </Container>
+  </>
 )

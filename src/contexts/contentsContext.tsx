@@ -7,7 +7,7 @@ import {
 } from 'react'
 import {
   ContentsAction,
-  commentsReducer,
+  contentsReducer,
   ContentsState,
   initialState,
 } from '../reducers/contentsReducer'
@@ -23,7 +23,7 @@ const ContentsContext = createContext<ContentsContextProps>({
 })
 
 export const ContentsProvider = ({ children }: { children: ReactNode }) => {
-  const [state, dispatch] = useReducer(commentsReducer, initialState)
+  const [state, dispatch] = useReducer(contentsReducer, initialState)
   return (
     <ContentsContext.Provider value={{ state, dispatch }}>
       {children}

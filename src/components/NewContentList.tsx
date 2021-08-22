@@ -16,6 +16,7 @@ import {
   ModalCloseButton,
   Button,
   useDisclosure,
+  Container,
 } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import Slider from "react-slick";
@@ -42,9 +43,35 @@ export const NewContentList = () => {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 4,
     slidesToScroll: 1,
+    initialSlide: 0,
     swipeToSlide: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ],
   }
 
   return (
@@ -52,15 +79,19 @@ export const NewContentList = () => {
       <Heading mt={4} mb={2} as='h2' size='lg' color='gray.600'>
         新着情報
       </Heading>
-      <Slider {...sliderSettings}>
-        {contents === [] ? (
-          <p>No Post</p>
-        ) : (
-          contents.map((content) => (
-            <ModalWindow key={content.id} content={content} />
-          ))
-        )}
-      </Slider>
+      <Container px={5}  maxW='container.lg' className='test'>
+        <Slider {...sliderSettings}>
+          {contents === [] ? (
+            <p>No Post</p>
+          ) : (
+            contents.map((content) => (
+              <ModalWindow key={content.id} content={content} />
+
+            ), console.log(contents))
+          )}
+        </Slider>
+
+      </Container>
     </>
   )
 }
@@ -87,7 +118,7 @@ const ModalWindow = ({ content }: { content: IContent }) => {
           pos={'relative'}>
           <Image
             src={
-              'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+              'https://picsum.photos/seed/picsum/300/200'
             }
             layout={'fill'}
           />
@@ -103,11 +134,11 @@ const ModalWindow = ({ content }: { content: IContent }) => {
           </Text>
           <Heading
             color={'gray.700'}
-            fontSize={'2xl'}
+            fontSize={'xl'}
             fontFamily={'body'}>
             {content.title}
           </Heading>
-          <Text color={'gray.500'} isTruncated>
+          <Text color={'gray.900'} fontSize={'md'} isTruncated>
             {content.content}
           </Text>
         </Stack>
@@ -130,7 +161,7 @@ const ModalWindow = ({ content }: { content: IContent }) => {
           <ModalHeader>{content.title}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Center  className="test">
+            <Center className="test">
               <Image src='https://via.placeholder.com/150' alt='test' />
             </Center>
             <HStack mb={2}>
