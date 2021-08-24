@@ -1,16 +1,17 @@
-import { Button, Container, Text, Input, Textarea, VStack, FormControl, FormLabel, Select } from '@chakra-ui/react'
+import { Button, Container, Text, Input, VStack, FormControl, FormLabel, Select } from '@chakra-ui/react'
 import { useState } from 'react'
 import { addComment } from '../api/contentsApi'
 import { useAuth } from '../contexts/authContext'
 import { useContents } from '../contexts/contentsContext'
 import { IContentAdd } from '../models'
 
-export const Editor = () => {
+export const MyEditor = () => {
   const { user } = useAuth()
   const { dispatch } = useContents()
   const [contentType, setContentType] = useState('')
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -44,9 +45,7 @@ export const Editor = () => {
   const titleChange = (e: React.FormEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value)
   }
-  const handleChange = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    setContent(e.currentTarget.value)
-  }
+
 
   return (
     <Container maxW="container.lg">
@@ -73,14 +72,8 @@ export const Editor = () => {
           <FormLabel>タイトル</FormLabel>
           <Input value={title} onChange={titleChange} size='md' placeholder="投稿タイトル" />
         </FormControl>
-        <FormControl id='content' isRequired>
+        <FormControl id='content'>
           <FormLabel>内容</FormLabel>
-          <Textarea
-            name='content'
-            value={content}
-            onChange={handleChange}
-            placeholder="投稿内容"
-          />
         </FormControl>
         <div className='arign-right'>
           <Button type='submit' colorScheme='orange'>

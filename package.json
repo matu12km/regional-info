@@ -15,12 +15,16 @@
     "@types/react": "^17.0.15",
     "@types/react-dom": "^17.0.9",
     "axios": "^0.21.1",
+    "draft-js": "^0.11.7",
+    "draft-js-export-markdown": "^1.4.0",
     "firebase": "^8.8.1",
     "framer-motion": "^4.1.17",
+    "mobx-react-lite": "^3.2.0",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-firebaseui": "^5.0.0-canary1",
+    "react-icons": "^4.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-slick": "^0.28.1",
@@ -53,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@types/draft-js": "^0.11.4",
     "@types/react-router-dom": "^5.1.8",
     "@types/react-slick": "^0.23.5"
   }

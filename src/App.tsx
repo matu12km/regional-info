@@ -10,19 +10,21 @@ import { ReviewEditorPage } from './components/ReviewEditorPage'
 import { AuthProvider } from './contexts/authContext'
 import { ContentsProvider } from './contexts/contentsContext'
 import { ReviewsProvider } from './contexts/reviewsContext'
+import { StoreProvider, MuiThemeProvider } from './contexts/richEditorContext';
+import { RichEditor } from './components/EditorComponent/DraftEditor'
 
 function App() {
   return (
     <AuthProvider>
       <ChakraProvider theme={theme}>
-          <ReviewsProvider>
+        <ReviewsProvider>
           <Router>
             <Switch>
               <Route path='/review' component={ReviewPage} />
               <Route path='/revieweditor' component={ReviewEditorPage} />
             </Switch>
           </Router>
-          </ReviewsProvider>
+        </ReviewsProvider>
         <ContentsProvider>
           <Router>
             <Switch>
@@ -32,11 +34,20 @@ function App() {
             </Switch>
           </Router>
         </ContentsProvider>
-          <Router>
-            <Switch>
-              <Route path='/login' exact component={Login} />
-            </Switch>
-          </Router>
+        <StoreProvider>
+          <MuiThemeProvider>
+            <Router>
+              <Switch>
+                <Route path='/richeditor' component={RichEditor}/>
+              </Switch>
+            </Router>
+          </MuiThemeProvider>
+        </StoreProvider>
+        <Router>
+          <Switch>
+            <Route path='/login' exact component={Login} />
+          </Switch>
+        </Router>
       </ChakraProvider>
     </AuthProvider>
   )
