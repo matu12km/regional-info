@@ -1,3 +1,5 @@
+import { OutputBlockData } from "@editorjs/editorjs"
+
 export type IUser = {
   displayName: string | null | undefined
   photoURL: string | null | undefined
@@ -8,16 +10,27 @@ export type IContent = {
   prefectures: string
   municipalities: string
   title: string
+  content: {
+    version?: string;
+    time?: number;
+    blocks: OutputBlockData[]
+  }
   createdAt: Date
   id: string
 }
+export type IContents = IContent[]
+
 export type IContentAdd = {
   user: IUser
   contentType: string
   prefectures: string
   municipalities: string
   title: string
-  content: any[]
+  content: {
+    version?: string;
+    time?: number;
+    blocks: OutputBlockData[]
+  }
 }
 
 export type IReview = {

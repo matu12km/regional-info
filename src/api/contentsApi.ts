@@ -18,6 +18,15 @@ export const getContents = async () => {
   return data
 }
 
+export const getContent = async (contentId: string) => {
+  const snapShot = await firedb
+    .collection('testcontents')
+    .doc(contentId)
+    .get()
+  const data = snapShot.data() as IContent
+  return data
+}
+
 export const addComment = async (content: IContentAdd) => {
   return firedb.collection('testcontents').add({
     user: content.user,
